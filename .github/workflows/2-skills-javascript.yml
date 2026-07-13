@@ -25,6 +25,7 @@ jobs:
   # then be referenced in other jobs and used in conditional
   # expressions.
   get_current_step:
+    if: ${{ vars.CI_ENABLED == 'true' }}
     name: Check current step number
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +44,7 @@ jobs:
     # 1. This repository isn't the template repository.
     # Reference: https://docs.github.com/en/actions/learn-github-actions/contexts
     # Reference: https://docs.github.com/en/actions/learn-github-actions/expressions
-    if: ${{ !github.event.repository.is_template && needs.get_current_step.outputs.current_step == 2 }}
+    if: ${{ vars.CI_ENABLED == 'true' && (!github.event.repository.is_template && needs.get_current_step.outputs.current_step == 2) }}
 
     # We'll run Ubuntu for performance instead of Mac or Windows.
     runs-on: ubuntu-latest
